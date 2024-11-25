@@ -269,8 +269,8 @@ public class ConfigEditor extends FXController {
                     @Override
                     protected Boolean call() throws Exception {
                         try {
-                            table.getItems().stream().forEach(item -> {
-                                if (item.getDisplayNode() == null) {
+                            table.getItems().forEach(item -> {
+                                if (item.getDisplayNode() == null || item.getDisplayNode().get() == null) {
                                     return;
                                 }
                                 for (Field field : editing.getClass().getFields()) {

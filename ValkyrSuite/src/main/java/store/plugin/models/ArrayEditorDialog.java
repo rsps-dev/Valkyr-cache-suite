@@ -38,7 +38,11 @@ public class ArrayEditorDialog {
 		applyButton.setPadding(new Insets(10));
 		applyButton.setOnAction(event -> {
 			List<String> editedItems = Arrays.asList(textArea.getText().split("\\n"));
-			comboBox.getItems().setAll(editedItems.stream().map(s -> s.isEmpty() || s.equalsIgnoreCase("null") ? null : s).collect(Collectors.toList()));
+			comboBox.getItems().setAll(
+					editedItems.stream()
+							.filter(s -> !(s.isEmpty() || s.equalsIgnoreCase("null"))) // Remove empty/null entries
+							.collect(Collectors.toList())
+			);
 			stage.close();
 		});
 
