@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ArrayEditorDialog {
@@ -37,12 +38,17 @@ public class ArrayEditorDialog {
 		applyButton.setOnMouseExited(e -> applyButton.setStyle("-fx-background-color: #1b1d23; -fx-text-fill: white; -fx-background-radius: 0;"));
 		applyButton.setPadding(new Insets(10));
 		applyButton.setOnAction(event -> {
-			List<String> editedItems = Arrays.asList(textArea.getText().split("\\n"));
-			comboBox.getItems().setAll(
-					editedItems.stream()
-							.filter(s -> !(s.isEmpty() || s.equalsIgnoreCase("null"))) // Remove empty/null entries
-							.collect(Collectors.toList())
-			);
+			List<String> editedItems = Arrays.stream(textArea.getText().split("\\n"))
+					.map(s -> s.isEmpty() || s.equalsIgnoreCase("null") ? null : s)
+					.collect(Collectors.toList());
+
+			// If all items are null, set an empty list to the ComboBox
+			if (editedItems.stream().allMatch(Objects::isNull)) {
+				comboBox.getItems().clear(); // Clear the ComboBox if all lines are empty or "null"
+			} else {
+				comboBox.getItems().setAll(editedItems);
+			}
+
 			stage.close();
 		});
 
