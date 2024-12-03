@@ -389,7 +389,7 @@ public class ObjectConfig extends ConfigExtensionBase {
 			buffer.writeByte(supportsItems);
 		}
 		
-		if ((varbitID != -1 && varpID != -1) && (configChangeDest != null && configChangeDest.length > 0)) {	
+		if ((varbitID != -1 || varpID != -1) && (configChangeDest != null && configChangeDest.length > 0)) {
 			int length = configChangeDest.length;
 			boolean hasTransforms = configChangeDest[configChangeDest.length - 1] != -1;
 			buffer.writeByte(hasTransforms ? 92 : 77);
